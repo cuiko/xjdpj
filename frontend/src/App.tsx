@@ -9,7 +9,9 @@ import {
   Heading,
   Progress,
   VStack,
+  IconButton,
 } from "@chakra-ui/react";
+import { RiGithubLine } from "react-icons/ri";
 
 import { ColorModeToggle } from "./components/color-mode-toggle";
 import { HiUpload } from "react-icons/hi";
@@ -18,6 +20,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Toaster, toaster } from "./components/ui/toaster";
 import { Code } from "@chakra-ui/react";
+import { LuMoon, LuSun } from "react-icons/lu";
 
 export default function Page() {
   const [files, setFiles] = useState<File[]>([]);
@@ -119,9 +122,19 @@ export default function Page() {
         </Button>
       </VStack>
       <Box pos="absolute" top="4" right="4">
-        <ClientOnly fallback={<Skeleton w="10" h="10" rounded="md" />}>
-          <ColorModeToggle />
-        </ClientOnly>
+        <VStack>
+          <ClientOnly fallback={<Skeleton w="10" h="10" rounded="md" />}>
+            <ColorModeToggle />
+          </ClientOnly>
+          <IconButton
+            aria-label="opensource"
+            onClick={() => {
+              window.location.href = "https://github.com/BennyThink/xjdpj";
+            }}
+          >
+            <RiGithubLine />
+          </IconButton>
+        </VStack>
       </Box>
     </Box>
   );
