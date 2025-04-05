@@ -23,6 +23,8 @@ app.config.REQUEST_MAX_SIZE = 1024 * 1024 * 1024 * 10
 app.config.REQUEST_TIMEOUT = 3600 * 2
 app.config.LOG_LEVEL = "INFO"
 app.config.PROXIES_COUNT = 1
+HOST = os.getenv("HOST") or "0.0.0.0"
+PORT = os.getenv("PORT") or 44777
 KEY = os.getenv("KEY")
 SAVED_PATH = pathlib.Path(__name__).parent.joinpath("saved")
 SAVED_PATH.mkdir(exist_ok=True)
@@ -129,6 +131,6 @@ async def cleanup():
 if __name__ == "__main__":
     logger.info("Running with key: %s", KEY)
     if os.name == "nt":
-        app.run(host="127.0.0.1", port=44777, fast=True, access_log=True)
+        app.run(host=HOST, port=PORT, fast=True, access_log=True)
     else:
-        app.run(host="127.0.0.1", port=44777, debug=True, dev=True, auto_reload=True, access_log=True)
+        app.run(host=HOST, port=PORT, debug=True, dev=True, auto_reload=True, access_log=True)
