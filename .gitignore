@@ -173,7 +173,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 /.idea/.gitignore
-/pyproject.toml
 /.idea/vcs.xml
 /.idea/misc.xml
 /.idea/modules.xml
@@ -182,4 +181,4 @@ cython_debug/
 /.idea/xjdpj.iml
 /frontend/node_modules/
 /.idea/prettier.xml
-/src/saved/
+/backend/saved/

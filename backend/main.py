@@ -19,11 +19,11 @@ from sanic.response import json as json_response
 from sanic.response import raw, text
 
 app = Sanic("XinJiangDaPanJi")
-app.config.REQUEST_MAX_SIZE = 1024 * 1024 * 1024
-app.config.REQUEST_TIMEOUT = 60 * 60
+app.config.REQUEST_MAX_SIZE = 1024 * 1024 * 1024 * 10
+app.config.REQUEST_TIMEOUT = 3600 * 2
 app.config.LOG_LEVEL = "INFO"
 app.config.PROXIES_COUNT = 1
-KEY = os.getenv("KEY", "fc3dbd31629b94fbfa8a4f4d93e8dc79")
+KEY = os.getenv("KEY")
 SAVED_PATH = pathlib.Path(__name__).parent.joinpath("saved")
 SAVED_PATH.mkdir(exist_ok=True)
 
@@ -71,7 +71,6 @@ app.static("/favicon.ico", "../frontend/dist/favicon.ico", name="favicon")
 @app.route("/", methods=["GET"])
 async def index(request):
     index_path = SAVED_PATH.resolve().parent.parent.joinpath("frontend/dist/index.html")
-    print(index_path.resolve())
     return await file(index_path)
 
 
@@ -91,8 +90,8 @@ async def download(request: Request, filename: str = ""):
 @app.route("/api/upload", methods=["POST"], name="upload2")
 async def upload(request: Request):
     file = request.files.get("file")
-    auth = request.form.get("auth")
-    if auth != KEY:
+    auth = request.form.get("auth") or request.form.get("key")
+    if KEY and auth != KEY:
         return json_response({"message": "Invalid key"}, status=403)
     if not file or len(file.body) == 0:
         return json_response({"message": "No file uploaded"}, status=400)
@@ -128,6 +127,7 @@ async def cleanup():
 
 
 if __name__ == "__main__":
+    logger.info("Running with key: %s", KEY)
     if os.name == "nt":
         app.run(host="127.0.0.1", port=44777, fast=True, access_log=True)
     else:

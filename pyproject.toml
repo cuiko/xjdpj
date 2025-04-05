@@ -1,0 +1,15 @@
+[project]
+name = "XinJiangDaPanJi"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Benny", email = "benny.think@gmail.com"},
+]
+dependencies = ["sanic>=25.3.0", "apscheduler>=3.11.0"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false

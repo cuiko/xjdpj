@@ -52,6 +52,16 @@ export default function Page() {
     }
   };
 
+  useEffect(() => {
+    // get query argument from url `key` and set it to key
+    const urlParams = new URLSearchParams(window.location.search);
+    const keyFromUrl = urlParams.get("key");
+    if (keyFromUrl) {
+      setKey(keyFromUrl);
+      localStorage.setItem("key", keyFromUrl);
+    }
+  }, []);
+
   return (
     <Box textAlign="center" fontSize="xl" pt="10vh">
       <Toaster />
