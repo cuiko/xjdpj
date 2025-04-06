@@ -8,7 +8,7 @@ RUN npm install
 
 RUN npm run build
 
-FROM python:3.11-slim AS backend
+FROM python:3.11-alpine AS backend
 
 WORKDIR /app
 
@@ -17,12 +17,17 @@ COPY . .
 COPY --from=frontend /app/frontend/dist ./frontend/dist
 
 # 安装 pdm
-RUN curl -sSL https://pdm-project.org/install-pdm.py | python3 -
+ADD https://pdm-project.org/install-pdm.py .
+RUN python3 install-pdm.py
 
-RUN pdm install
+RUN /root/.local/bin/pdm install
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+ENV HOST= 
+ENV PORT= 
+ENV KEY=
 
 WORKDIR /app/backend
-
-ENV KEY=
 
 CMD ["python3", "main.py"]
